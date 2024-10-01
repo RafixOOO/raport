@@ -106,6 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 echo "<script>toastr.error('Wystąpił problem podczas zmiany hasła!!!')</script>";
             }
+        }else{
+            echo "<p style='color:red; text-align:center;'>Nowe hasło nie może być identyczne z poprzednio używanym. Proszę wybrać inne hasło.</p>";
         }
     
     sqlsrv_close($conn);
