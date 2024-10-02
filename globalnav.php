@@ -130,7 +130,7 @@ if ($stmt === false) {
 while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
   echo '<li class="nav-item">
 <a href="raport.php?ID='.$row['sitesID'].'">
-  <i class="fas fa-table"></i>
+  <i class="fa fa-angle-double-right"></i>
   <p>'.$row['nazwa'] .'</p>
 </a>
 </li>';
