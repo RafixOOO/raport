@@ -72,11 +72,54 @@ where rp.userID = $userid and rp.sitesID =$id";
     <div class="date">Data: <span id="currentDate"></span></div>
 </header>
 
+<?php
+// Klucz szyfrujący (musisz przechowywać go bezpiecznie)
+$encryption_key = '0123456789abcdef0123456789abcdef';  // 32-znakowy klucz dla AES-256
+$iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));  // Wektor inicjalizacyjny (IV)
+
+// Funkcja szyfrująca URL
+function encrypt_url($url, $key, $iv) {
+    $encrypted_url = openssl_encrypt($url, 'aes-256-cbc', $key, 0, $iv);
+    return base64_encode($encrypted_url . '::' . base64_encode($iv));  // Łączymy zaszyfrowane dane i IV
+}
+
+// Funkcja deszyfrująca URL
+function decrypt_url($encrypted_url, $key) {
+    $parts = explode('::', base64_decode($encrypted_url));
+    if (count($parts) === 2) {
+        $encrypted_data = $parts[0];
+        $iv = base64_decode($parts[1]);
+        return openssl_decrypt($encrypted_data, 'aes-256-cbc', $key, 0, $iv);
+    } else {
+        return false;  // Błąd w formacie szyfrowania
+    }
+}
+
+// Sprawdzamy, czy w URL-u jest zakodowany link
+if (isset($_GET['url'])) {
+    // Dekodowanie i deszyfrowanie URL-a, a następnie przekierowanie
+    $encoded_url = $_GET['url'];
+    $decoded_url = decrypt_url($encoded_url, $encryption_key);
+    if ($decoded_url) {
+        header("Location: $decoded_url");
+        exit();
+    } else {
+        die("Błąd: nieprawidłowy format URL.");
+    }
+}
+
+// Zakładamy, że $nazwa i $strona pochodzą z bazy danych lub innego źródła
+$nazwa = htmlspecialchars($nazwa);
+$strona = htmlspecialchars($strona);
+
+// Zakodowanie (zaszyfrowanie) linku do osadzenia w iframe
+$encoded_url = encrypt_url($strona, $encryption_key, $iv);
+?>
+
 <!-- Użyj lokalnego proxy -->
 <div class="iframe-container">
-        <iframe id="myIframe" title="<?php echo htmlspecialchars($nazwa); ?>" src="<?php echo htmlspecialchars($strona); ?>" allowFullScreen></iframe>
-    </div>
-
+    <!-- Osadzony iframe z zakodowanym URL-em -->
+    <iframe id="myIframe" title="<?php echo $nazwa; ?>" src="?url=<?php echo urlencode($encoded_url); ?>" allowFullScreen></iframe>
 </div>
 
 <?php require_once("globalnav.php"); ?>
