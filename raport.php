@@ -74,7 +74,7 @@ where rp.userID = $userid and rp.sitesID =$id";
 
 <?php
 // Klucz szyfrujący (musisz przechowywać go bezpiecznie)
-$encryption_key = '01cd23456789ab778cdef01234abcdef56567789';  // 32-znakowy klucz dla AES-256
+$encryption_key = '5a@d!7g^T8m#jQ2$Xk&f*Lw3*zKc9#Vr';  // 32-znakowy klucz dla AES-256
 $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length('aes-256-cbc'));  // Wektor inicjalizacyjny (IV)
 
 // Funkcja szyfrująca URL
