@@ -52,7 +52,67 @@
     <h1>Raporty</h1>
     <div class="date">Data: <span id="currentDate"></span></div>
 </header>
+<br />
+<div class="row">
 
+<?php
+$id = isIdent();
+require_once("dbconnect.php");
+$sql = "SELECT distinct rs.nazwa, rs.strona, rs.sitesID, rp.permissionBool
+FROM PartCheck.dbo.raportSites rs 
+ left JOIN PartCheck.dbo.raportPermission rp on rs.sitesID = rp.sitesID and rp.userID=$id";
+
+$stmt = sqlsrv_query($conn, $sql);
+
+// Sprawdzenie, czy zapytanie zostało poprawnie wykonane
+if ($stmt === false) {
+    die(print_r(sqlsrv_errors(), true));
+}
+
+$counter = 0; // Licznik raportów
+if(isLoggedIn()){
+while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+    
+    // Rozpocznij nowy wiersz dla co drugiego raportu
+    if ($counter % 2 == 0) {
+        echo '<div class="row mb-4">'; // Nowy rząd i margines na dole
+    }
+?>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <center><h5 class="card-title"><?php echo $row['nazwa']; ?></h5></center>
+                <?php if($row['permissionBool']==1){ ?>
+                <a style="float:right;margin-right:5%;" href="<?php echo 'raport.php?ID=' . $row['sitesID']; ?>" class="btn btn-primary">Idź do raportu</a>
+                <?php }else{ ?>
+                    <button style="float:right;margin-right:5%;" href="" class="btn btn-danger">Brak dostępu</button>
+                    <?php } ?>
+            </div>
+        </div>
+    </div>
+
+<?php 
+    $counter++;
+
+    // Zamknij wiersz po wyświetleniu dwóch raportów
+    if ($counter % 2 == 0) {
+        echo '</div>'; // Koniec rzędu
+    }
+} 
+
+// Zamknij otwarty wiersz, jeśli liczba raportów jest nieparzysta
+if ($counter % 2 != 0) {
+    echo '</div>'; // Koniec rzędu
+}
+
+// Komunikat, jeśli brak raportów
+}else {
+    echo "<center><h4>Aby uzyskać dostęp do raportów, zaloguj się na swoje konto. Jeśli nie posiadasz konta lub masz problem z logowaniem, skontaktuj się z administratorem w celu utworzenia konta lub resetu hasła.</h4></center>";
+}
+?>
+</div>
+</div>
 <script>
     // Skrypt do wstawienia aktualnej daty
     document.getElementById("currentDate").innerText = new Date().toLocaleDateString();
