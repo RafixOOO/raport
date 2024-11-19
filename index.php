@@ -53,7 +53,6 @@
     <div class="date">Data: <span id="currentDate"></span></div>
 </header>
 <br />
-<div class="row">
 
 <?php
 $id = isIdent();
@@ -86,7 +85,7 @@ while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
                 <?php if($row['permissionBool']==1){ ?>
                 <a style="float:right;margin-right:5%;" href="<?php echo 'raport.php?ID=' . $row['sitesID']; ?>" class="btn btn-primary">Idź do raportu</a>
                 <?php }else{ ?>
-                    <button style="float:right;margin-right:5%;" href="" class="btn btn-danger">Brak dostępu</button>
+                    <button style="float:right;margin-right:5%;" class="btn btn-danger">Brak dostępu</button>
                     <?php } ?>
             </div>
         </div>
@@ -111,7 +110,6 @@ if ($counter % 2 != 0) {
     echo "<center><h4>Aby uzyskać dostęp do raportów, zaloguj się na swoje konto. Jeśli nie posiadasz konta lub masz problem z logowaniem, skontaktuj się z administratorem w celu utworzenia konta lub resetu hasła.</h4></center>";
 }
 ?>
-</div>
 </div>
 <script>
     // Skrypt do wstawienia aktualnej daty
