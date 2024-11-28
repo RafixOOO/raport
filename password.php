@@ -48,13 +48,13 @@ if ($conn === false) {
             <div class="form-group">
                 <label for="current_password">Nowe hasło</label>
                 <input type="password" class="form-control" id="current_password" name="current_password"
-                    placeholder="Aktualne Hasło">
+                    placeholder="Nowe Hasło">
             </div>
             <br />
             <div class="form-group">
                 <label for="new_password">Powtórz hasło</label>
                 <input type="password" class="form-control" id="new_password" name="new_password" 
-       placeholder="Nowe Hasło" 
+       placeholder="Powtórz Nowe Hasło" 
        pattern="(?=.*\d)(?=.*[A-Z])(?=.*\W).{8,}" 
        title="Hasło musi zawierać przynajmniej 8 znaków, przynajmniej jedną wielką literę, jeden znak specjalny i jedną liczbę" 
        required>
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Aktualizacja hasła
             if (updatePassword($username, $newPassword)) {
                 echo "<script>toastr.success('Hasło zostało zmienione!!!')</script>";
-                header("Location: index.php");
+                header("Location: main.php");
                 exit();
             } else {
                 echo "<script>toastr.error('Wystąpił problem podczas zmiany hasła!!!')</script>";
