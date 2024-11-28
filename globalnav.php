@@ -103,6 +103,12 @@
               </ul>
             </div>
           </li>
+          <li class="nav-item">
+            <a href="main.php">
+              <i class="fa fa-home"></i>
+              <p>Strona główna</p>
+            </a>
+          </li>
           <?php } ?>
         </ul>
         <ul class="nav nav-secondary">
@@ -110,7 +116,7 @@
             <span class="sidebar-mini-icon">
               <i class="fa fa-ellipsis-h"></i>
             </span>
-            <h4 class="text-section">Aplikacje</h4>
+            <h4 class="text-section">Raporty</h4>
           </li>
           <?php
           require_once("dbconnect.php");
