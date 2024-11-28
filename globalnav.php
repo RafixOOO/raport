@@ -67,7 +67,7 @@
           </li>
           <?php if(!isLoggedIn()) { ?>
           <li class="nav-item">
-            <a href="login.php">
+            <a href="index.php">
               <i class="fa fa-user"></i>
               <p>Zaloguj się</p>
             </a>
