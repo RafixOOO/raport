@@ -9,7 +9,7 @@ function login($username, $password)
     $params = array($username);
     $getResults = sqlsrv_query($conn, $tsql, $params);
     $row = sqlsrv_fetch_array($getResults, SQLSRV_FETCH_ASSOC);
-    $row_date = isset($row['passdate']) ? $row['passdate'] : '';   // Convert $row['date'] to a DateTime object
+    $row_date = $row['passdate'] ?? '';   // Convert $row['date'] to a DateTime object
 $current_date = new DateTime();          // Get the current date
 
 // Subtract 3 months from the current date
